@@ -28,6 +28,7 @@ plot(pressure)
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```
 ## DESIREE Define the DNA sequence dataset by generating a score for each nucleotide
 def kmers(k):
     '''Generate a list of all k-mers for a given k'''
@@ -36,11 +37,11 @@ def kmers(k):
 
 seqs8 = kmers(8)
 print('Total 8mers:',len(seqs8))
+```
+# Goal: Create a program that models DNA sequences with Pytorch and predicts patterns of simple DNA sequences.
 
-Goal: Create a program that models DNA sequences with Pytorch and predicts patterns of simple DNA sequences.
 
-
-
+```
 # DESIREE print: Total 8mers: 65536
 
 score_dict = {
@@ -71,7 +72,8 @@ def score_seqs_motif(seqs):
     return df
     
 mer8 = score_seqs_motif(seqs8)
-
+```
+```
 # ANGENE starting convolutional filters
 import logomaker
 
@@ -82,28 +84,28 @@ def get_conv_layers_from_model(model):
     model_children = list(model.children())
     
 # counter to keep count of the conv layers
-model_weights = [] # we will save the conv layer weights in this list
-conv_layers = [] # we will save the actual conv layers in this list
-bias_weights = []
-counter = 0 
+    model_weights = [] # we will save the conv layer weights in this list
+    conv_layers = [] # we will save the actual conv layers in this list
+    bias_weights = []
+    counter = 0 
 
 # all the conv layers and their respective weights to the list
     for i in range(len(model_children)):
-        # get model type of Conv1d
-        if type(model_children[i]) == nn.Conv1d:
-            counter += 1
-            model_weights.append(model_children[i].weight)
-            conv_layers.append(model_children[i])
-            bias_weights.append(model_children[i].bias)
+# get model type of Conv1d
+     if type(model_children[i]) == nn.Conv1d:
+    counter += 1
+    model_weights.append(model_children[i].weight)
+    conv_layers.append(model_children[i])
+    bias_weights.append(model_children[i].bias)
 
     # also checking sequential objects' children for conv1d
         elif type(model_children[i]) == nn.Sequential:
-            for child in model_children[i]:
-                if type(child) == nn.Conv1d:
-                    counter += 1
-                    model_weights.append(child.weight)
-                    conv_layers.append(child)
-                    bias_weights.append(child.bias)
+        for child in model_children[i]:
+        if type(child) == nn.Conv1d:
+        counter += 1
+        model_weights.append(child.weight)
+        conv_layers.append(child)
+        bias_weights.append(child.bias)
 
     print(f"Total convolutional layers: {counter}")
     return conv_layers, model_weights, bias_weights
@@ -240,3 +242,4 @@ some_seqs = random.choices(seqs, k=3000)
 filter_activations = get_filter_activations(some_seqs, conv_layers[0],act_thresh=1)
 view_filters_and_logos(model_weights,filter_activations)
 
+```
