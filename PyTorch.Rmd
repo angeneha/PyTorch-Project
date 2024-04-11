@@ -36,6 +36,11 @@ def kmers(k):
 
 seqs8 = kmers(8)
 print('Total 8mers:',len(seqs8))
+
+Goal: Create a program that models DNA sequences with Pytorch and predicts patterns of simple DNA sequences.
+
+
+
 # DESIREE print: Total 8mers: 65536
 
 score_dict = {
