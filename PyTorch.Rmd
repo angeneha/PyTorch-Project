@@ -28,13 +28,3 @@ plot(pressure)
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
-## Define the DNA sequence dataset by generating a score for each nucleotide
-def kmers(k):
-    '''Generate a list of all k-mers for a given k'''
-
-    return [''.join(x) for x in product(['A','C','G','T'], repeat=k)]
-
-seqs8 = kmers(8)
-print('Total 8mers:',len(seqs8))
-#print: Total 8mers: 65536
-
