@@ -37,11 +37,11 @@ def kmers(k):
 
 seqs8 = kmers(8)
 print('Total 8mers:',len(seqs8))
-```
+
 # Goal: Create a program that models DNA sequences with Pytorch and predicts patterns of simple DNA sequences.
 
 
-```
+
 # DESIREE print: Total 8mers: 65536
 
 score_dict = {
@@ -72,8 +72,8 @@ def score_seqs_motif(seqs):
     return df
     
 mer8 = score_seqs_motif(seqs8)
-```
-```
+
+
 # ANGENE starting convolutional filters
 import logomaker
 
@@ -242,4 +242,4 @@ some_seqs = random.choices(seqs, k=3000)
 filter_activations = get_filter_activations(some_seqs, conv_layers[0],act_thresh=1)
 view_filters_and_logos(model_weights,filter_activations)
 
-```
+
