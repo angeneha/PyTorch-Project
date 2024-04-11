@@ -36,7 +36,7 @@ def kmers(k):
 
 seqs8 = kmers(8)
 print('Total 8mers:',len(seqs8))
-#DESIREE print: Total 8mers: 65536
+# DESIREE print: Total 8mers: 65536
 
 score_dict = {
     'A':20,
