@@ -72,7 +72,7 @@ def score_seqs_motif(seqs):
     
 mer8 = score_seqs_motif(seqs8)
 
-#ANGENE starting convolutional filters
+# ANGENE starting convolutional filters
 import logomaker
 
 def get_conv_layers_from_model(model):
