@@ -74,6 +74,77 @@ def score_seqs_motif(seqs):
 mer8 = score_seqs_motif(seqs8)
 
 
+# ALEJANDRA starting to define Pytorch models #
+# simple linear model #
+class DNA_Linear(nn.Module):
+    def __init__(self, seq_len):
+        super().__init__()
+        self.seq_len = seq_len
+        # the 4 id for our one-hot encoded vector length 4! #
+        self.lin = nn.Linear(4*seq_len, 1)
+
+    def forward(self, xb):
+        # reshape to flatten sequence dimension #
+        xb = xb.view(xb.shape[0],self.seq_len*4)
+        # Linear wraps up the weights/bias dot product operations #
+        out = self.lin(xb)
+        return out
+
+# basic CNN model #
+class DNA_CNN(nn.Module):
+    def __init__(self,
+                 seq_len,
+                 num_filters=32,
+                 kernel_size=3):
+       super().__init__()
+       self.seq_len = seq_len
+
+       self.conv_net = nn.Sequential(
+           # 4 is for the 4 nucleotides #
+           nn.Conv1d(4, num_filters, kernel_size=kernel_size),
+           nn.ReLu(inplace=True),
+           nn.Flatten(),
+           nn.Linear(num_filters*(seq_len-kernel_size+1), 1)
+       )
+
+    def forward(self, xb):
+        # permute to put channel in correct order #
+        # (batch_size x 4channel x seq_len) #
+        xb = xb.permute(0,2,1)
+
+        # print(xb.shape) #
+        out = self.conv_net(xb)
+        return out
+
+# start of training loops #
+# +--------------------------------+ #
+# | Training and fitting functions | #
+# +--------------------------------+ #
+
+def loss_batch(model, loss_func, xb, yb, opt=None, verbose=False):
+    '''
+    Apply loss function to a batch of inputs. If no optimizer
+    is provided, skip the back prop step.
+    '''
+    if verbose:
+        print('loss batch ****')
+        print("xb shape:",xb.shape)
+        print("yb shape:",yb.shape)
+        print("yb shape:",yb.squeeze(1).shape)
+        #print("yb",yb)
+
+    # get the batch output from the model given your input batch #
+    # ** This is the model's prediction for the y labels #
+    xb_out = model(xb.float())
+
+    if verbose:
+        print("model out pre loss", xb_out.shape)
+        #print('xb_out', xb_out) #
+        print("xb_out:",xb_out.shape)
+        print("yb:",yb.shape)
+        print("yb.long:",yb.long().shape)
+
+
 # ANGENE starting convolutional filters
 import logomaker
 
