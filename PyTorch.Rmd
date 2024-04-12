@@ -40,7 +40,7 @@ print('Total 8mers:',len(seqs8))
 
 # Goal: Create a program that models DNA sequences with Pytorch and predicts patterns of simple DNA sequences.
 
-
+# Consultation: "Modeling DNA Sequences with PyTorch" by Erin Wilson #
 
 # DESIREE print: Total 8mers: 65536
 
@@ -75,7 +75,7 @@ mer8 = score_seqs_motif(seqs8)
 
 
 # ALEJANDRA starting to define Pytorch models #
-# referenced "Modeling DNA Sequences with PyTorch" by Erin Wilson #
+# reference: "Modeling DNA Sequences with PyTorch" by Erin Wilson #
 # simple linear model #
 class DNA_Linear(nn.Module):
     def __init__(self, seq_len):
