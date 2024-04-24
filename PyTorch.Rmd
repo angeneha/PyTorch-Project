@@ -118,14 +118,12 @@ class DNA_CNN(nn.Module):
         return out
 
 # start of training loops #
-# +--------------------------------+ #
 # | Training and fitting functions | #
-# +--------------------------------+ #
 
 def loss_batch(model, loss_func, xb, yb, opt=None, verbose=False):
     '''
     Apply loss function to a batch of inputs. If no optimizer
-    is provided, skip the back prop step.
+    is provided, skip the back propogation step.
     '''
     if verbose:
         print('loss batch ****')
@@ -144,6 +142,25 @@ def loss_batch(model, loss_func, xb, yb, opt=None, verbose=False):
         print("xb_out:",xb_out.shape)
         print("yb:",yb.shape)
         print("yb.long:",yb.long().shape)
+
+    loss = loss_func(xb_out, yb.float()) # for MSE/regression #
+    # __FOOTNOTE 2__ #
+
+    if opt is not None: # if opt #
+        loss.backward()
+        opt.step()
+        opt.zero_grad()
+
+    return loss.item(), len(xb)
+
+def train_step(model, train_dl, loss_func, device, opt):
+    '''
+    Execute 1 set of batched training within an epoch 
+    '''
+    # Set model to training mode #
+    model.train()
+    tl = [] # train losses
+    ns = [] # batch sizes, n
 
 
 # ANGENE starting convolutional filters
