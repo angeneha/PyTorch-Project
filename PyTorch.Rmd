@@ -29,7 +29,7 @@ plot(pressure)
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
 ```
-## DESIREE Define the DNA sequence dataset by generating a score for each nucleotide
+##DESIREE Define the DNA sequence dataset by generating a score for each nucleotide
 def kmers(k):
     '''Generate a list of all k-mers for a given k'''
 
@@ -38,11 +38,11 @@ def kmers(k):
 seqs8 = kmers(8)
 print('Total 8mers:',len(seqs8))
 
-# Goal: Create a program that models DNA sequences with Pytorch and predicts patterns of simple DNA sequences.
+#Goal: Create a program that models DNA sequences with Pytorch and predicts patterns of simple DNA sequences.
 
-# Consultation: "Modeling DNA Sequences with PyTorch" by Erin Wilson #
+#Consultation: "Modeling DNA Sequences with PyTorch" by Erin Wilson #
 
-# DESIREE print: Total 8mers: 65536
+#DESIREE print: Total 8mers: 65536
 
 score_dict = {
     'A':20,
@@ -58,10 +58,10 @@ def score_seqs_motif(seqs):
     '''
     data = []
     for seq in seqs:
-        # DESIREE get the average score by nucleotide
+        #DESIREE get the average score by nucleotide
         score = np.mean([score_dict[base] for base in seq])
         
-        # DESIREE give a + or - bump if this k-mer has a specific motif
+        #DESIREE give a + or - bump if this k-mer has a specific motif
         if 'TAT' in seq:
             score += 10
         if 'GCG' in seq:
@@ -72,6 +72,18 @@ def score_seqs_motif(seqs):
     return df
     
 mer8 = score_seqs_motif(seqs8)
+
+def one_hot_encode(seq):
+    """
+    Given a DNA sequence, return its one-hot encoding
+    """
+    #DESIREE Make sure the sequence has only allowed bases
+    allowed = set("ACTGN")
+    if not set(seq).issubset(allowed):
+        invalid = set(seq) - allowed
+        raise ValueError(f"Sequence contains chars not in allowed DNA alphabet (ACGTN): {invalid}")
+
+#DESIREE Dictionary returning one-hot encoding for each nucleotide 
 
 
 # ALEJANDRA starting to define Pytorch models #
