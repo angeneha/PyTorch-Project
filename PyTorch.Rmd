@@ -28,7 +28,11 @@ plot(pressure)
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
-```
+
+#Goal: Build a pytorch model to predict dna sequence score, to predict a label from a sequence that we program
+#Reference: DNA Pytorch by Erin wilson
+
+
 #Adding the libraries and modules for pytorch use
 ```
 from collections import defaultdict
@@ -41,9 +45,10 @@ import torch
 from torch import nn
 ```
 
-``` 
+ 
 #Set a random seed, an integer parameter, across the libraries and modules within this program to ensure random reproducibility of the results.
-```
+
+
 def set_seed(seed: int = 42) -> None:
     np.random.seed(seed)
     random.seed(seed)
@@ -71,16 +76,17 @@ def kmers(k):
     '''Generate a list of all k-mers for a given k'''
 
     return [''.join(x) for x in product(['A','C','G','T'], repeat=k)]
+```
 
+
+#DESIREE prints the Total of 8mers
+```
 seqs8 = kmers(8)
 print('Total 8mers:',len(seqs8))
+```
 
-#Goal: Create a program that models DNA sequences with Pytorch and predicts patterns of simple DNA sequences.
 
-#Consultation: "Modeling DNA Sequences with PyTorch" by Erin Wilson #
-
-#DESIREE print: Total 8mers: 65536
-
+```
 score_dict = {
     'A':20,
     'C':17,
@@ -107,9 +113,15 @@ def score_seqs_motif(seqs):
         
     df = pd.DataFrame(data, columns=['seq','score'])
     return df
-    
-mer8 = score_seqs_motif(seqs8)
+```
 
+
+```
+mer8 = score_seqs_motif(seqs8)
+```
+
+
+```
 def one_hot_encode(seq):
     """
     Given a DNA sequence, return its one-hot encoding
@@ -131,7 +143,9 @@ def one_hot_encode(seq):
     vec=np.array([nuc_d[x] for x in seq])
         
     return vec
-  
+```
+
+
 #DESIREE look at DNA seq of 8 As
 a8 = one_hot_encode("AAAAAAAA")
 print("AAAAAAAA:\n",a8)
