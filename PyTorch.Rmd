@@ -58,6 +58,11 @@ def set_seed(seed: int = 42) -> None:
 set_seed(17)
 #The random seed is now set at 17
 ```
+#This block will select the appropriate device, GPU or CPU based on the system that pytorch was imported in 
+```
+DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+DEVICE
+```
 
 ##DESIREE Define the DNA sequence dataset by generating a score for each nucleotide. This section of code block is used to assign sequences a score for pytorch. For every 8-mer sequence the nucleotide sum based on the rule system, the assignment of a number to a letter, will be added and averaged to produce the score of the sequence.
 
