@@ -29,7 +29,38 @@ plot(pressure)
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
 ```
-##DESIREE Define the DNA sequence dataset by generating a score for each nucleotide
+```
+from collections import defaultdict
+from intertools import product
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import random
+import torch
+from torch import nn
+```
+
+``` 
+#Set a random seed, an integer parameter, across the libraries and modules within this program to ensure random reproducibility of the results.
+```
+def set_seed(seed: int = 42) -> None:
+    np.random.seed(seed)
+    random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    # When running on the CuDNN backend, two further options must be set
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+
+    print(f"Random seed set as {seed}")
+    
+set_seed(17)
+#The random seed is now set at 17
+```
+
+##DESIREE Define the DNA sequence dataset by generating a score for each nucleotide. This section of code block is used to assign sequences a score for pytorch. For every 8-mer sequence the nucleotide sum based on the rule system, the assignment of a number to a letter, will be added and averaged to produce the score of the sequence.
+
+```
 def kmers(k):
     '''Generate a list of all k-mers for a given k'''
 
