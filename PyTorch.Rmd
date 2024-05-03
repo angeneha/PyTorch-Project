@@ -86,7 +86,7 @@ seqs8 = kmers(8)
 print('Total 8mers:',len(seqs8))
 ```
 
-
+#This code block creates a way to assign scores to DNA sequences based on the individual scores of nucleotides and additional adjustments for specific motifs within the sequences
 ```
 score_dict = {
     'A':20,
