@@ -47,8 +47,7 @@ from torch import nn
 
  
 #Set a random seed, an integer parameter, across the libraries and modules within this program to ensure random reproducibility of the results.
-
-
+```
 def set_seed(seed: int = 42) -> None:
     np.random.seed(seed)
     random.seed(seed)
@@ -61,8 +60,10 @@ def set_seed(seed: int = 42) -> None:
     print(f"Random seed set as {seed}")
     
 set_seed(17)
-#The random seed is now set at 17
 ```
+#The random seed is now set at 17
+
+
 #This block will select the appropriate device, GPU or CPU based on the system that pytorch was imported in 
 ```
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
