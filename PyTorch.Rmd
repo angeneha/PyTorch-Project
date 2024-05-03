@@ -155,37 +155,17 @@ def one_hot_encode(seq):
 ```
 
 
-#DESIREE look at DNA seq of 8 As
+#look at DNA seq of 8 As
+```
 a8 = one_hot_encode("AAAAAAAA")
 print("AAAAAAAA:\n",a8)
-
-#prints:
-#AAAAAAAA:
-#[[1. 0. 0. 0.]
-#[1. 0. 0. 0.]
-#[1. 0. 0. 0.]
-#[1. 0. 0. 0.]
-#[1. 0. 0. 0.]
-#[1. 0. 0. 0.]
-#[1. 0. 0. 0.]
-#[1. 0. 0. 0.]]
 
 #look at DNA seq of random nucleotides
 s = one_hot_encode("AGGTACCT")
 print("AGGTACCT:\n",s)
 print("shape:",s.shape)
+```
 
-#prints:
-#AGGTACCT:
-#[[1. 0. 0. 0.]
-#[0. 0. 1. 0.]
-#[0. 0. 1. 0.]
-#[0. 0. 0. 1.]
-#[1. 0. 0. 0.]
-#[0. 1. 0. 0.]
-#[0. 1. 0. 0.]
-#[0. 0. 0. 1.]]
-#shape: (8, 4)
 
 def quick_split(df, split_frac=0.8):
     '''
