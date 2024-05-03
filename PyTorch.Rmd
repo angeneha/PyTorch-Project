@@ -121,7 +121,7 @@ def score_seqs_motif(seqs):
 mer8 = score_seqs_motif(seqs8)
 ```
 
-#Creates a histogram plot using Matplotlib showing the distribution of scores among the 8-mer sequences.
+#Creates a histogram plot using Matplotlib showing the distribution of scores among the 8-mer sequences.20 bins allows for a reasonably detailed visualization of the score distribution among the 8-mer sequences with specific motifs
 ```
 plt.hist(mer8['score'].values,bins=20)
 plt.title("8-mer with Motifs score distribution")
