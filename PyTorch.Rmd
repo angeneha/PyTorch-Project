@@ -166,7 +166,7 @@ print("AGGTACCT:\n",s)
 print("shape:",s.shape)
 ```
 
-
+```
 def quick_split(df, split_frac=0.8):
     '''
     Given a df of samples, randomly split indices between
@@ -189,8 +189,9 @@ def quick_split(df, split_frac=0.8):
     test_df = df[df.index.isin(test_idxs)]
         
     return train_df[cols], test_df[cols]
-    
-    
+```
+
+```    
 full_train_df, test_df = quick_split(mer8)
 train_df, val_df = quick_split(full_train_df)
 
@@ -198,10 +199,24 @@ print("Train:", train_df.shape)
 print("Val:", val_df.shape)
 print("Test:", test_df.shape)
 
-#prints: 
-#Train: (41942, 2)
-#Val: (10486, 2)
-#Test: (13108, 2)
+train_df.head()
+```
+
+```
+def plot_train_test_hist(train_df, val_df,test_df,bins=20):
+    ''' Check distribution of train/test scores, sanity check that its not skewed'''
+    plt.hist(train_df['score'].values,bins=bins,label='train',alpha=0.5)
+    plt.hist(val_df['score'].values,bins=bins,label='val',alpha=0.75)
+    plt.hist(test_df['score'].values,bins=bins,label='test',alpha=0.4)
+    plt.legend()
+    plt.xlabel("seq score",fontsize=14)
+    plt.ylabel("count",fontsize=14)
+    plt.show()
+```
+
+```
+plot_train_test_hist(train_df, val_df,test_df)
+``
 
 #ALEJANDRA starting to define Pytorch models #
 #reference: "Modeling DNA Sequences with PyTorch" by Erin Wilson #
