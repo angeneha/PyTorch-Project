@@ -64,7 +64,7 @@ set_seed(17)
 #The random seed is now set at 17
 
 
-#This block will select the appropriate device, GPU or CPU based on the system that pytorch was imported in 
+#This block will select the appropriate device, GPU or CPU based on the system that pytorch was imported in, my device is CPU
 ```
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 DEVICE
@@ -73,28 +73,33 @@ DEVICE
 ##DESIREE Define the DNA sequence dataset by generating a score for each nucleotide. This section of code block is used to assign sequences a score for pytorch. For every 8-mer sequence the nucleotide sum based on the rule system, the assignment of a number to a letter, will be added and averaged to produce the score of the sequence.
 
 ```
-def kmers(k):
-    '''Generate a list of all k-mers for a given k'''
+from itertools import product
 
-    return [''.join(x) for x in product(['A','C','G','T'], repeat=k)]
+def kmers(k):
+    '''Generate all k-mers for a given k'''
+    return [''.join(x) for x in product('ACGT', repeat=k)]
+
 ```
 
 
 #DESIREE prints the Total of 8mers
 ```
 seqs8 = kmers(8)
-print('Total 8mers:',len(seqs8))
+print('Total 8mers:', len(seqs8))
 ```
 
 #This code block creates a way to assign scores to DNA sequences based on the individual scores of nucleotides and additional adjustments for specific motifs within the sequences
 ```
+import numpy as np
+import pandas as pd
+
 score_dict = {
-    'A':20,
-    'C':17,
-    'G':14,
-    'T':11
+    'A': 20,
+    'C': 17,
+    'G': 14,
+    'T': 11
 }
-                  
+
 def score_seqs_motif(seqs):
     '''
     Calculate the scores for a list of sequences based on 
@@ -102,31 +107,46 @@ def score_seqs_motif(seqs):
     '''
     data = []
     for seq in seqs:
-        #DESIREE get the average score by nucleotide
+        # get the average score by nucleotide
         score = np.mean([score_dict[base] for base in seq])
         
-        #DESIREE give a + or - bump if this k-mer has a specific motif
-        if 'TAT' in seq:
-            score += 10
-        if 'GCG' in seq:
-            score -= 10
-        data.append([seq,score])
+        # give a + or - bump if this k-mer has a specific motif
+        score += 10 if 'TAT' in seq else 0
+        score -= 10 if 'GCG' in seq else 0
         
-    df = pd.DataFrame(data, columns=['seq','score'])
+        data.append([seq, score])
+        
+    df = pd.DataFrame(data, columns=['seq', 'score'])
     return df
 ```
 
-
+#Creates a chart of sequence scores for the first 4 8-mers that the program creates
 ```
 mer8 = score_seqs_motif(seqs8)
+print(mer8.head())
+```
+
+#Prints scores for the 8-mer sequences that are given to it. Used to check program
+```
+filtered_mer8 = mer8[mer8['seq'].isin(['TGCGTTTT', 'CCCCCTAT'])]
+print(filtered_mer8)
 ```
 
 #Creates a histogram plot using Matplotlib showing the distribution of scores among the 8-mer sequences.20 bins allows for a reasonably detailed visualization of the score distribution among the 8-mer sequences with specific motifs
+
+
 ```
-plt.hist(mer8['score'].values,bins=20)
-plt.title("8-mer with Motifs score distribution")
-plt.xlabel("seq score",fontsize=14)
-plt.ylabel("count",fontsize=14)
+import matplotlib.pyplot as plt
+
+# Plot the histogram with seagreen bars
+plt.hist(mer8['score'].values, bins=20, color='seagreen')
+
+# Add title and labels
+plt.title("Analysis of Score Distribution for 8-mer Motifs")
+plt.xlabel("Score Distribution of 8-mers", fontsize=14)
+plt.ylabel("Occurance of 8-mer's", fontsize=14)
+
+# Shows the plot
 plt.show()
 ```
 
