@@ -427,7 +427,7 @@ lin_train_losses, lin_val_losses = run_model(
 
 
 
-# ANGENE is evaluating the model predictions on the test set - using parity plots to visualize the difference between the actual test sequence scores vs the model’s predicted scores.
+# ANGENE is evaluating the model predictions on the test set and using parity plots to visualize the difference between the actual test sequence scores vs the model’s predicted scores.
 import altair as alt
 from sklearn.metrics import r2_score
 
