@@ -242,6 +242,7 @@ def plot_train_test_hist(train_df, val_df, test_df, bins=20):
 
 
 #Creates a plot visualizing the distribution of sequences with the given sequence scores
+
 ```
 plot_train_test_hist(train_df, val_df,test_df)
 ``
@@ -254,6 +255,7 @@ import statsmodels.formula.api as smf
 from torch.utils.data import Dataset, DataLoader
 ```
 
+#This block crates a PyTorch dataset to train the neural networks on sequence data that has been preprocessed and one-hot encoded (representing each category as a binary that is suitable for machine learning
 ```
 class SeqDatasetOHE(Dataset):
     '''
@@ -290,6 +292,7 @@ class SeqDatasetOHE(Dataset):
         return seq, label
 ```
 
+#Code block constructs the PyTorch DataLoader objects for training and testing datasets. It prepares and loads data for training and testing machine learning for the sequence data
 ```
 def build_dataloaders(train_df,
                       test_df,
@@ -319,6 +322,10 @@ def build_dataloaders(train_df,
 ```
 train_dl, val_dl = build_dataloaders(train_df, val_df)
 ```
+#The data loaders are now able to be used in Alejandra's section for preparing the training loops
+
+
+
 
 #ALEJANDRA starting to define Pytorch models #
 #reference: "Modeling DNA Sequences with PyTorch" by Erin Wilson #
