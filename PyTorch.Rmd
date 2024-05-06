@@ -320,7 +320,6 @@ def build_dataloaders(train_df,
 train_dl, val_dl = build_dataloaders(train_df, val_df)
 ```
 
-### Defining Pytorch Model
 #ALEJANDRA starting to define Pytorch models #
 #reference: "Modeling DNA Sequences with PyTorch" by Erin Wilson #
 #simple linear model #
