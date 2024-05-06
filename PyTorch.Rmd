@@ -427,7 +427,74 @@ lin_train_losses, lin_val_losses = run_model(
 
 
 
-# ANGENE starting convolutional filters
+# ANGENE is evaluating the model predictions on the test set - using parity plots to visualize the difference between the actual test sequence scores vs the model’s predicted scores.
+import altair as alt
+from sklearn.metrics import r2_score
+
+def parity_plot(model_name,df,r2):
+    '''
+    Given a dataframe of samples with their true and predicted values,
+    make a scatterplot.
+    '''
+    plt.scatter(df['truth'].values, df['pred'].values, alpha=0.2)
+    
+    # y=x line
+    xpoints = ypoints = plt.xlim()
+    plt.plot(xpoints, ypoints, linestyle='--', color='k', lw=2, scalex=False, scaley=False)
+
+    plt.ylim(xpoints)
+    plt.ylabel("Predicted Score",fontsize=14)
+    plt.xlabel("Actual Score",fontsize=14)
+    plt.title(f"{model_name} (r2:{r2:.3f})",fontsize=20)
+    plt.show()
+    
+def alt_parity_plot(model,df, r2):
+    '''
+    Make an interactive parity plot with altair
+    '''
+    chart = alt.Chart(df).mark_circle(size=100,opacity=0.4).encode(
+        alt.X('truth:Q'),
+        alt.Y('pred:Q'),
+        tooltip=['seq:N']
+    ).properties(
+        title=f'{model} (r2:{r2:.3f})'
+    ).interactive()
+    
+    chart.save(f'alt_out/parity_plot_{model}.html')
+    display(chart)
+
+def parity_pred(models, seqs, oracle,alt=False):
+    '''Given some sequences, get the model's predictions '''
+    dfs = {} # key: model name, value: parity_df
+    
+    for model_name,model in models:
+        print(f"Running {model_name}")
+        data = []
+        for dna in seqs:
+            s = torch.tensor(one_hot_encode(dna)).unsqueeze(0).to(DEVICE)
+            actual = oracle[dna]
+            pred = model(s.float())
+            data.append([dna,actual,pred.item()])
+        df = pd.DataFrame(data, columns=['seq','truth','pred'])
+        r2 = r2_score(df['truth'],df['pred'])
+        dfs[model_name] = (r2,df)
+        
+        #plot parity plot
+        if alt: # make an altair plot
+            alt_parity_plot(model_name, df, r2)
+        else:
+            parity_plot(model_name, df, r2)
+            
+# generate plots
+seqs = test_df['seq'].values
+models = [
+    ("Linear", model_lin),
+    ("CNN", model_cnn)
+]
+parity_pred(models, seqs, oracle)
+#Linear model predicts a trend in the Test set sequences.The CNN is better at predicting scores close to the actual value.
+
+#starting visualization of convolutional filters to understand more about what the model is learning
 import logomaker
 
 def get_conv_layers_from_model(model):
