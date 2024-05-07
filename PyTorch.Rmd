@@ -36,7 +36,7 @@ Note that the `echo = FALSE` parameter was added to the code chunk to prevent pr
 #Adding the libraries and modules for pytorch use
 ```
 from collections import defaultdict
-from intertools import product
+from itertools import product
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -332,7 +332,7 @@ train_dl, val_dl = build_dataloaders(train_df, val_df)
 #simple linear model #
 class DNA_Linear(nn.Module):
     def __init__(self, seq_len):
-        super().__init__()
+        super(DNA_Linear,  self).__init__()
         self.seq_len = seq_len
         # the 4 id for our one-hot encoded vector length 4! #
         self.lin = nn.Linear(4*seq_len, 1)
@@ -534,6 +534,45 @@ lin_train_losses, lin_val_losses = run_model(
     DEVICE
 )
 
+
+# Linear model training and loss curves plot 
+def quick_loss_plot(data_label_list,loss_type="MSE Loss",sparse_n=0):
+    '''
+    For each train/test loss trajectory, plot loss by epoch
+    '''
+    for i,(train_data,test_data,label) in enumerate(data_label_list):    
+        plt.plot(train_data,linestyle='--',color=f"C{i}", label=f"{label} Train")
+        plt.plot(test_data,color=f"C{i}", label=f"{label} Val",linewidth=3.0)
+
+    plt.legend()
+    plt.ylabel(loss_type)
+    plt.xlabel("Epoch")
+    plt.legend(bbox_to_anchor=(1,1),loc='upper left')
+    plt.show()
+    
+
+lin_data_label = (lin_train_losses,lin_val_losses,"Lin")
+quick_loss_plot([lin_data_label])
+```
+
+# CNN model plot of loss curves
+seq_len = len(train_df['seq'].values[0])
+
+# create Linear model object
+model_cnn = DNA_CNN(seq_len)
+model_cnn.to(DEVICE) # put on GPU
+
+# run the model with default settings!
+cnn_train_losses, cnn_val_losses = run_model(
+    train_dl, 
+    val_dl, 
+    model_cnn,
+    DEVICE
+)
+
+cnn_data_label = (cnn_train_losses,cnn_val_losses,"CNN")
+quick_loss_plot([lin_data_label,cnn_data_label])
+```
 
 
 # ANGENE is evaluating the model predictions on the test set and using parity plots to visualize the difference between the actual test sequence scores vs the model’s predicted scores.
